@@ -1,35 +1,35 @@
 This is only for testing/demo purposes.
 Our keystore and jetty entry password is the same: Rf7856op
 
-Steps:
-1. Generate initial keystore (keytool):
-keytool -genkey -alias server-alias -keyalg RSA -keypass Rf7856op -storepass Rf7856op -keystore adorApp.jks
+### 1. Generate key:
 
-2. Generate PKCS version  (keytool)
-keytool -importkeystore -srckeystore adorApp.jks -destkeystore adorApp2.jks -deststoretype pkcs12
+#### From command line:
+Run the following command from the release folder (the build output directory, where the adoration*.jar is placed)
 
-3. Generate crt file from keystore:
-winpty openssl pkcs12 -in adorApp2.jks -nokeys -out adorApp2.crt
+Generate initial keystore (keytool):
 
-4. Open crt file in Windows Explorer - Export to file as DEC type adorApp.cer
+```keytool -genkey -alias server-alias -keyalg RSA -keypass Rf7856op -storepass Rf7856op -keystore adorApp.jks```
 
-5. Finalize comment
-cp adorApp2.jks adorApp.keystore
-and remove every files except adorApp.keystore and adorApp.cer
+#### Or use KeyStore Explorer
 
-6. Search for jetty-util-*.jar file in Gradle's local lib cache.
-Create OBF password to be placed in jetty setup java:
-java -cp jetty-util-9.2.27.v20190403.jar org.eclipse.jetty.util.security.Password Rf7856op
-place OBF part into WebAppServer.java
-(+ build/release)
-Note that it can be used to de-obfuscate the pwd too
+Download from here: https://keystore-explorer.org/downloads.html
 
-7. set property useHttps=true in xxx.conf.properties
+ - File -> New
+ - Select `JKS`
+ - Generate Key Pair
 
-+1. In case you are using local App server, you may instruct Chrome to accept incesure localhost calls:
-chrome://flags/#allow-insecure-localhost
+And place the new `jks` key into release folder.
+
+### 2. Set HTTPS:
+
+Set property `isHttpsInUse=true` in `xxx.conf.properties`
+
+### Note
+
++1. In case you are using local App server, you may instruct Chrome to accept insecure localhost calls:
+`chrome://flags/#allow-insecure-localhost`
 
 +2: In case a certificate renewal happens
-- update apache settings to point to new cer and boundle_ca files
+- update apache settings to point to new cer and bundle_ca files
 - update web app jks -> need to import key pair PKCS#8 - private key + p7b (PKCS#7) files together.
 
