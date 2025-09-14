@@ -25,7 +25,7 @@ sonarqube {
         property "sonar.organization", "website-magyar"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.java.checkstyle.reportPaths", "build/reports/checkstyle/main.xml"
-        property "sonar.exclusions", "**/external/**/*";
+        property "sonar.exclusions", "**/external/**/*"
     }
 }
 
@@ -37,7 +37,7 @@ subprojects {
     apply plugin: 'jacoco'
 
     jacoco {
-        toolVersion = "0.8.7"
+        toolVersion = "0.8.13"
     }
     jacocoTestReport {
         reports {
@@ -45,6 +45,15 @@ subprojects {
         }
     }
     test.finalizedBy jacocoTestReport
+
+    tasks.withType(Test).configureEach {
+        // allow Jacoco (and any other agent) to open base modules
+        jvmArgs += [
+                '--add-opens=java.base/java.lang=ALL-UNNAMED',
+                '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED',
+                '--add-opens=java.base/java.util=ALL-UNNAMED'
+        ]
+    }
 
     // Source and target info
     sourceCompatibility = JavaVersion.VERSION_17
