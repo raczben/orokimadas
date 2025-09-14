@@ -8,7 +8,7 @@ Production instance is available here: http://orokimadas.magyar.website
 
 ### Requirements:
  - Git
- - Java JDK 11 (the current version) (can be downloaded within from IntelliJ)
+ - Java JDK 17 (the current version) (can be downloaded within from IntelliJ)
  - IntelliJ IDEA Community Edition (can be downloaded from MS Store)
  - PSQL (database) https://www.postgresql.org/download/
  - MS Excel (or Libreoffice)
@@ -45,8 +45,13 @@ You will see a `ERROR StatusLogger Log4j2 could not find a logging implementatio
 
 #### Setting up the KeyStore
 
+
 The adoration webpage uses [`https` protocol](https://www.cloudflare.com/learning/ssl/what-is-an-ssl-certificate/),
 this means the launch will fail if you haven't got a valid SSL certificate (at least a locally).
+
+For testing purposes you can bypass the SSL encripion by using a simple http connection:
+
+Set property `isHttpsInUse=false` in `xxx.conf.properties`
 
 For testing purposes you can generate certificate locally: all information can be found in the `./config/security/Readme.md` file.
 
