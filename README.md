@@ -45,8 +45,13 @@ You will see a `ERROR StatusLogger Log4j2 could not find a logging implementatio
 
 #### Setting up the KeyStore
 
+
 The adoration webpage uses [`https` protocol](https://www.cloudflare.com/learning/ssl/what-is-an-ssl-certificate/),
 this means the launch will fail if you haven't got a valid SSL certificate (at least a locally).
+
+For testing purposes you can bypass the SSL encripion by using a simple http connection:
+
+Set property `isHttpsInUse=false` in `xxx.conf.properties`
 
 For testing purposes you can generate certificate locally: all information can be found in the `./config/security/Readme.md` file.
 
